@@ -1,15 +1,9 @@
 import React from 'react';
 import { View, Text,Image,TextInput,Button } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
 
 
-import ChatsScreen from './ChatListScreen'
-import RegisterScreen from './RegisterScreen'
-import ChatScreen from './ChatScreen'
-import LoginScreen from './LoginScreen'
 
-class HomeScreen extends React.Component {
-
+export default class LoginScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -19,21 +13,18 @@ class HomeScreen extends React.Component {
 
     };
     this.login = this.login.bind(this);
-
   }
   login()
   {
 
   }
-
+  
   render() {
-    if(this.state.isLoggedIn)
-    return(<ChatsScreen navigation={this.props.navigation}/>)
-    else
+  
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Image source={require('./images/logo.png')} style={{width: 240, height: 80}}/>
-        <Text>Home Screen</Text>
+        <Text>Login LoginScreen </Text>
         <TextInput style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
               onChangeText={(user) => this.setState({user})}
               value={this.state.user}
@@ -44,7 +35,7 @@ class HomeScreen extends React.Component {
         />
         
         <Button title="Sing in"
-          onPress={()=> this.setState({isLoggedIn:true})}
+         onPress={() => this.props.navigation.navigate('Chats')}
         />
         <Button title="Register?"
          onPress={() => this.props.navigation.navigate('Register')}
@@ -53,25 +44,3 @@ class HomeScreen extends React.Component {
     );
   }
 }
-
-const RootStack = createStackNavigator(
-  {
-    Home: HomeScreen,
-    Register: RegisterScreen,
-    LoginScreen:LoginScreen,
-    Chats:ChatsScreen,
-    Chat:ChatScreen
-    
-  },
-  {
-    initialRouteName: 'Home',
-  }
-);
-
-export default class App extends React.Component {
-  render() {
-    return <RootStack />;
-  }
-}
-
-        // onPress={() => this.props.navigation.navigate('Details')}

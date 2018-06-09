@@ -12,15 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 const Row = props => (
-  <TouchableOpacity
-    onPress={() => {
-      props.navigator.push({
-        id: props.id,
-        name: props.name,
-        image: props.image,
-      });
-    }}
-  >
+ 
     <View style={styles.row}>
       <Image source={{ uri: props.image }} style={styles.pic} />
       <View>
@@ -37,7 +29,6 @@ const Row = props => (
         </View>
       </View>
     </View>
-  </TouchableOpacity>
 );
 
 

@@ -19,7 +19,7 @@ export default class ProfileScreen extends React.Component {
         const { navigate } = this.props.navigation;
       return (
         <SafeAreaView >
-            <Text>My Profile</Text>
+            <Text>Register??</Text>
         </SafeAreaView>
     );
     }  
