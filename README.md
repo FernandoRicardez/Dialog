@@ -1,2 +1,2 @@
 # Dialog
-Small chat app, using firebase and socket.io
+Small chat app, using Ract Native and Firebase.
