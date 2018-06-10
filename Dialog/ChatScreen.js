@@ -1,4 +1,5 @@
 import React from 'react';
+import * as firebase from 'firebase';
 import {
     AppRegistry,
     StyleSheet,
@@ -17,8 +18,13 @@ import {
   import MessageR from './components/messageRecieved'  
   import MessageS from './components/messageSent'  
 
+
+
 const { width, height } = Dimensions.get('window');
 export default class ChatScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Chat con jose luis',
+  };
 
     constructor(props){
         super(props);
@@ -31,6 +37,17 @@ export default class ChatScreen extends React.Component {
         };
 
         //Bindings
+
+    this.submitThis = this.submitThis.bind(this);
+    }
+
+    submitThis()
+    {
+        firebase.database().ref('users/SHoI1YNfmDfiN9zpapTghUf9e0E2/friends').push({
+            friendId: 'dwdw'
+            
+          });
+          this.setState({messageText:''});
     }
 
     render() {

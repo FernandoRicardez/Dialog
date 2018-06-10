@@ -8,6 +8,25 @@ import RegisterScreen from './RegisterScreen'
 import ChatScreen from './ChatScreen'
 import LoginScreen from './LoginScreen'
 
+
+import * as firebase from 'firebase';
+
+
+
+
+var config = {
+  apiKey: "AIzaSyCilEABgS-phAlDsQXa_Yuy8usnHTE68o0",
+  authDomain: "htmlproyecto-454b2.firebaseapp.com",
+  databaseURL: "https://htmlproyecto-454b2.firebaseio.com",
+  projectId: "htmlproyecto-454b2",
+  storageBucket: "htmlproyecto-454b2.appspot.com",
+  messagingSenderId: "605804403726"
+};
+
+firebase.initializeApp(config);
+
+
+
 class HomeScreen extends React.Component {
 
   constructor(props){
@@ -15,7 +34,8 @@ class HomeScreen extends React.Component {
     this.state = {
       user: '',
       pass:'',
-      isLoggedIn:false
+      isLoggedIn:false,
+      firebaseUser:''
 
     };
     this.login = this.login.bind(this);
@@ -23,14 +43,31 @@ class HomeScreen extends React.Component {
   }
   login()
   {
+    firebase.auth().signInWithEmailAndPassword(this.state.user, this.state.pass).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+    });
+    
 
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        this.setState({firebaseUser:user.uid})
+        this.setState({isLoggedIn:true})
+      }
+    
+      // Do other things
+    });
+    
   }
 
   render() {
     if(this.state.isLoggedIn)
-    return(<ChatsScreen navigation={this.props.navigation}/>)
+    return(<ChatsScreen navigation={this.props.navigation} firebaseUser={this.state.firebaseUser}/>)
     else
     return (
+      
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Image source={require('./images/logo.png')} style={{width: 240, height: 80}}/>
         <Text>Home Screen App.js </Text>
@@ -44,7 +81,7 @@ class HomeScreen extends React.Component {
         />
         
         <Button title="Sing in FB"
-          onPress={()=> this.setState({isLoggedIn:true})}
+          onPress={()=> this.login()}
         />
         <Button title="Register?"
          onPress={() => this.props.navigation.navigate('Register')}

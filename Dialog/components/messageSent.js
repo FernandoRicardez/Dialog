@@ -11,12 +11,12 @@ import {
  const MessageSent = props => (
 
    <View style={{ flexDirection:'row', alignSelf:'flex-end', alignItems:'flex-end', margin:5 }}>
-                <View style={{ width:220, borderRadius:10, backgroundColor:'#00b499', padding:10 }}>
-                <Text style={{ fontSize:15, color:'#fff', fontWeight:'600' }}>{props.message}
-</Text>
-                </View>
-            </View>
-  );
+      <View style={{ width:220, borderRadius:10, backgroundColor:'#00b499', padding:10 }}>
+        <Text style={{ fontSize:15, color:'#fff', fontWeight:'600' }}>{props.message}
+        </Text>
+    </View>
+  </View>
+);
   
 export default MessageSent;
  
