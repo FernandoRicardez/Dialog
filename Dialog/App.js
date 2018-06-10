@@ -33,7 +33,7 @@ class HomeScreen extends React.Component {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Image source={require('./images/logo.png')} style={{width: 240, height: 80}}/>
-        <Text>Home Screen</Text>
+        <Text>Home Screen App.js </Text>
         <TextInput style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
               onChangeText={(user) => this.setState({user})}
               value={this.state.user}
@@ -43,7 +43,7 @@ class HomeScreen extends React.Component {
               value={this.state.pass}
         />
         
-        <Button title="Sing in"
+        <Button title="Sing in FB"
           onPress={()=> this.setState({isLoggedIn:true})}
         />
         <Button title="Register?"
