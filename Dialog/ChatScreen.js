@@ -18,21 +18,22 @@ import {
   import MessageR from './components/messageRecieved'  
   import MessageS from './components/messageSent'  
 
-
-
+var titleName;
 const { width, height } = Dimensions.get('window');
 export default class ChatScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Chat con jose luis',
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('name', 'Anonimo'),
+    };
   };
 
     constructor(props){
         super(props);
         this.state = {
           indiceActual: 0,
-          telefonoActual:'??????',
+          name:'??????',
           messageText:'',
-          messagesHeight:height-125
+          messagesHeight:height-125,
             
         };
 
@@ -43,16 +44,18 @@ export default class ChatScreen extends React.Component {
 
     submitThis()
     {
-        firebase.database().ref('users/SHoI1YNfmDfiN9zpapTghUf9e0E2/friends').push({
-            friendId: 'dwdw'
+        // firebase.database().ref('users/SHoI1YNfmDfiN9zpapTghUf9e0E2/friends').push({
+        //     friendId: 'dwdw'
             
-          });
+        //   });
           this.setState({messageText:''});
     }
 
     render() {
         const { navigate } = this.props.navigation;
         const { messageText } = this.state;
+  
+      
       return (
         <SafeAreaView >
             <ScrollView style={{height:this.state.messagesHeight}}>
