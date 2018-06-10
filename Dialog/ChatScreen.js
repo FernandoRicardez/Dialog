@@ -23,7 +23,7 @@ const { width, height } = Dimensions.get('window');
 export default class ChatScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('name', 'Anonimo'),
+      title: navigation.getParam('friendId', 'Anonimo'),
     };
   };
 

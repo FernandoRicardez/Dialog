@@ -7,7 +7,7 @@ import ChatsScreen from './ChatListScreen'
 import RegisterScreen from './RegisterScreen'
 import ChatScreen from './ChatScreen'
 import LoginScreen from './LoginScreen'
-
+import ProfileSCreen from './ProfileScreen'
 
 import * as firebase from 'firebase';
 
@@ -54,7 +54,9 @@ class HomeScreen extends React.Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         this.setState({firebaseUser:user.uid})
-        this.setState({isLoggedIn:true})
+        // this.setState({isLoggedIn:true})
+       
+         this.props.navigation.navigate('Chats',{firebaseUser:this.state.firebaseUser,name:"Dialog"});
       }
     
       // Do other things
@@ -64,6 +66,7 @@ class HomeScreen extends React.Component {
 
   render() {
     if(this.state.isLoggedIn)
+    
     return(<ChatsScreen navigation={this.props.navigation} firebaseUser={this.state.firebaseUser}/>)
     else
     return (
@@ -97,7 +100,8 @@ const RootStack = createStackNavigator(
     Register: RegisterScreen,
     LoginScreen:LoginScreen,
     Chats:ChatsScreen,
-    Chat:ChatScreen
+    Chat:ChatScreen,
+    Profile:ProfileSCreen,
     
   },
   {

@@ -7,15 +7,25 @@ import Header from './components/header'
 
 
 export default class ChatList extends React.Component {
-
-  static navigationOptions = {
-    title: 'Home',
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('name', 'Anonimo'),
+      headerRight: (
+        <Button
+          onPress={() => navigation.navigate('Profile',{firebaseUser:navigation.getParam('firebaseUser', 'Anonimo'),name:"Dialog"})}
+          title="Mi perfil"
+          color="#000"
+        />
+      ),
+   
+    };
   };
   constructor(props){
     super(props);
     this.state = {
        friends:[ ],
-      index: 0
+      index: 0,
+      firebaseUser:''
       
 
     };
@@ -27,8 +37,12 @@ export default class ChatList extends React.Component {
 
   componentWillMount()
   {
+    const userId = this.props.navigation.getParam('firebaseUser','');
+    this.setState({firebaseUser:userId});
+  
+   
     
-    firebase.database().ref('users/'+this.props.firebaseUser+'/friends').on('value', (snapshot) => {
+    firebase.database().ref('users/'+userId+'/friends').on('value', (snapshot) => {
       const res = snapshot.val();
         var friends = [];
         
@@ -62,7 +76,6 @@ export default class ChatList extends React.Component {
   
   render() {
     //   const { navigate } = this.props.navigation;
-   
     const chatLists = this.state.friends.map( friend => {
         return(
           <TouchableOpacity key={friend.key}
@@ -74,7 +87,11 @@ export default class ChatList extends React.Component {
           //   });
           // }}
           onPress={() => {
-             this.props.navigation.navigate('Chat',{name:'Chat con '+friend.name});
+             this.props.navigation.navigate('Chat',{
+               name:'Chat con '+friend.name,
+               friendId:friend.id
+            
+            });
             }}
         >
           <ChatItem key={friend.key} id={friend.id} name={friend.name} time="2:00" message={friend.state} image={friend.image}
@@ -87,6 +104,7 @@ export default class ChatList extends React.Component {
         <View  >
           <Header/>
         </View>
+        
       
         <ScrollView>
    
