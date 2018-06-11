@@ -53,7 +53,7 @@ class FriendModule extends React.Component {
         }
         
        const firebaseUser = this.state.firebaseUser;
-       const name = this.state.nombre;
+       const name = this.props.nombre;
         const friendMail = this.state.email;
         var db = firebase.database();
         var usersRef = db.ref("users");
@@ -75,14 +75,15 @@ class FriendModule extends React.Component {
             name: usr.name
             
           });
-          firebase.database().ref('users/'+usr.id+'/friends'+firebaseUser+'/').set({
+          firebase.database().ref('users/'+usr.id+'/friends/'+firebaseUser+'/').set({
             friendId: firebaseUser,
             name: name
             
           });
           
+          
     });
-       // this.setState({editmode:false});
+        this.setState({editmode:false});
     }
     
     render ()  {
