@@ -36,7 +36,7 @@ export default class ChatScreen extends React.Component {
           messagesHeight:height-125,
           chatID:'',
           messages:[]
-          
+
         };
 
         //Bindings
@@ -62,7 +62,13 @@ export default class ChatScreen extends React.Component {
       chatsRef.orderByChild(friendId+firebaseUser).equalTo(true).limitToFirst(1).on('value', (snapshot) => {
       snapshot.forEach(function (childSnapshot){
       usr = childSnapshot.key
-        
+          if(usr != undefined)
+          {
+            //TODO: load messsages in array
+            childSnapshot.forEach(function(messageFB){
+              var msg = messageFB
+            })
+          }
         }); 
         if(usr == undefined)
         {
