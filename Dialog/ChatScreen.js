@@ -34,17 +34,57 @@ export default class ChatScreen extends React.Component {
           name:'??????',
           messageText:'',
           messagesHeight:height-125,
-            
+          chatID:'',
+          messages:[]
+          
         };
 
         //Bindings
 
     this.submitThis = this.submitThis.bind(this);
+    this.getMessages = this.getMessages.bind(this);
     }
 
     componentWillMount()
     {
+      this.getMessages()
+    }
+    getMessages()
+    {
 
+      const firebaseUser = this.props.navigation.getParam('firebaseUser','');
+      const friendId = this.props.navigation.getParam('friendId','');
+      
+          
+       var db = firebase.database();
+       var chatsRef = db.ref("chats");
+       var usr;
+      chatsRef.orderByChild(friendId+firebaseUser).equalTo(true).limitToFirst(1).on('value', (snapshot) => {
+      snapshot.forEach(function (childSnapshot){
+      usr = childSnapshot.key
+        
+        }); 
+        if(usr == undefined)
+        {
+            chatsRef.push({
+                [friendId+firebaseUser]:true,
+                [firebaseUser+friendId]:true,
+              });
+            return;
+        }
+        else
+        {
+          this.setState({chatID:usr})
+        }
+  
+      });  
+    }
+
+
+    submitThis()
+    {
+      if(this.state.messageText=='')
+        return;
       const firebaseUser = this.props.navigation.getParam('firebaseUser','');
       const friendId = this.props.navigation.getParam('friendId','');
       
@@ -61,27 +101,6 @@ export default class ChatScreen extends React.Component {
 
 
 
-      if(usr == undefined)
-      {
-          chatsRef.push(
-            {
-              [friendId+firebaseUser]:true,
-              [firebaseUser+friendId]:true,
-              messages:{ 
-                
-              }
-            }
-          )
-          return;
-      }
-    }
-
-    submitThis()
-    {
-        firebase.database().ref('users/SHoI1YNfmDfiN9zpapTghUf9e0E2/friends').push({
-            friendId: 'dwdw'
-            
-          });
           this.setState({messageText:''});
     }
 
@@ -95,7 +114,7 @@ export default class ChatScreen extends React.Component {
             <ScrollView style={{height:this.state.messagesHeight}}>
             
            <MessageR message="hola"/>
-            <MessageS message="ab"/>
+            <MessageS message={this.state.chatID}/>
             </ScrollView>
 
             <View style={{ alignSelf:'flex-end', padding:10, height:60, width:width, borderTopWidth:1, borderColor:'#f3f3f3', backgroundColor:'#fff' }}>
