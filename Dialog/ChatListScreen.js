@@ -101,10 +101,7 @@ export default class ChatList extends React.Component {
     })
     return (
       <SafeAreaView style={styles.SafeAreaView}>
-        <View  >
-          <Header/>
-        </View>
-        
+      
       
         <ScrollView>
    
