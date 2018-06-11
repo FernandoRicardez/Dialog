@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text,Image,TextInput,Button } from 'react-native';
+import { View, Text,Image,TextInput,Button,ActivityIndicator } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 
@@ -42,7 +42,9 @@ class HomeScreen extends React.Component {
 
   }
   login()
-  {
+  { 
+    
+   // firebase.auth().signOut();
     firebase.auth().signInWithEmailAndPassword(this.state.user, this.state.pass).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -66,7 +68,7 @@ class HomeScreen extends React.Component {
 
   componentWillMount()
   {
-    firebase.auth().signOut();
+   // firebase.auth().signOut();
   }
 
   render() {
