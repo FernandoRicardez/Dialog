@@ -13,6 +13,7 @@ class FriendModule extends React.Component {
           editmode:false,
           firebaseUser:'',
           friendFirebaseUser:'',
+     
           
     
         };
@@ -25,7 +26,9 @@ class FriendModule extends React.Component {
 
     componentWillMount()
     {
-        this.setState({firebaseUser:this.props.firebaseUser})
+        this.setState({firebaseUser:this.props.firebaseUser});
+        this.setState({nombre:this.props.nombre});
+        
     }
     showForm()
     {
@@ -50,6 +53,7 @@ class FriendModule extends React.Component {
         }
         
        const firebaseUser = this.state.firebaseUser;
+       const name = this.state.nombre;
         const friendMail = this.state.email;
         var db = firebase.database();
         var usersRef = db.ref("users");
@@ -65,7 +69,18 @@ class FriendModule extends React.Component {
          }
          this.setState({nombre:usr.name});
         this.setState({correo:usr});
-      
+         
+         firebase.database().ref('users/'+firebaseUser+'/friends/'+usr.id+'/').set({
+            friendId: usr.id,
+            name: usr.name
+            
+          });
+          firebase.database().ref('users/'+usr.id+'/friends'+firebaseUser+'/').set({
+            friendId: firebaseUser,
+            name: name
+            
+          });
+          
     });
        // this.setState({editmode:false});
     }
@@ -177,7 +192,7 @@ export default class ProfileScreen extends React.Component {
                 <Text>Nombre: {this.state.nombre}</Text>
                 <Text>Correo: {this.state.correo}</Text>
                 <ScrollView>
-                <FriendModule isEditing={this.state.editmode} firebaseUser={this.props.navigation.getParam('firebaseUser','')}/>
+                <FriendModule isEditing={this.state.editmode} nombre={this.state.nombre} firebaseUser={this.props.navigation.getParam('firebaseUser','')}/>
                  </ScrollView>
             </SafeAreaView>
         );
