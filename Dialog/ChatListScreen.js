@@ -79,17 +79,11 @@ export default class ChatList extends React.Component {
     const chatLists = this.state.friends.map( friend => {
         return(
           <TouchableOpacity key={friend.key}
-          // onPress={() => {
-          //   props.navigator.push({
-          //     id: props.id,
-          //     name: props.name,
-          //     image: props.image,
-          //   });
-          // }}
           onPress={() => {
              this.props.navigation.navigate('Chat',{
                name:'Chat con '+friend.name,
-               friendId:friend.id
+               friendId:friend.id,
+               firebaseUser:this.state.firebaseUser
             
             });
             }}

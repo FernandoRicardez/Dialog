@@ -23,7 +23,7 @@ const { width, height } = Dimensions.get('window');
 export default class ChatScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('friendId', 'Anonimo'),
+      title: navigation.getParam('name', 'Chat con Anonimo'),
     };
   };
 
@@ -42,12 +42,46 @@ export default class ChatScreen extends React.Component {
     this.submitThis = this.submitThis.bind(this);
     }
 
+    componentWillMount()
+    {
+
+      const firebaseUser = this.props.navigation.getParam('firebaseUser','');
+      const friendId = this.props.navigation.getParam('friendId','');
+      
+          
+       var db = firebase.database();
+       var chatsRef = db.ref("chats");
+       var usr;
+      chatsRef.orderByChild(friendId+firebaseUser).equalTo(true).limitToFirst(1).on('value', (snapshot) => {
+      snapshot.forEach(function (childSnapshot){
+      usr = childSnapshot.val()
+        }); 
+       
+      });
+
+
+
+      if(usr == undefined)
+      {
+          chatsRef.push(
+            {
+              [friendId+firebaseUser]:true,
+              [firebaseUser+friendId]:true,
+              messages:{ 
+                
+              }
+            }
+          )
+          return;
+      }
+    }
+
     submitThis()
     {
-        // firebase.database().ref('users/SHoI1YNfmDfiN9zpapTghUf9e0E2/friends').push({
-        //     friendId: 'dwdw'
+        firebase.database().ref('users/SHoI1YNfmDfiN9zpapTghUf9e0E2/friends').push({
+            friendId: 'dwdw'
             
-        //   });
+          });
           this.setState({messageText:''});
     }
 
