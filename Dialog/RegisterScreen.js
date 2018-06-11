@@ -2,12 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View,Button,Alert,TextInput,Image,ScrollView,SafeAreaView,Icon } from 'react-native';
 import * as firebase from 'firebase'
 export default class ProfileScreen extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+          title: 'Registrarse',
+        };
+      };
 
     constructor(props){
         super(props);
         this.state = {
-          indiceActual: 0,
-          telefonoActual:'??????',
           email:'',
           pass1:'',
           pass2:'',

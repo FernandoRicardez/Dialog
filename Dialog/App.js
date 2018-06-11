@@ -64,6 +64,11 @@ class HomeScreen extends React.Component {
     
   }
 
+  componentWillMount()
+  {
+    firebase.auth().signOut();
+  }
+
   render() {
     if(this.state.isLoggedIn)
     
