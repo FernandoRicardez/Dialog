@@ -71,7 +71,8 @@ export default class FriendModule extends React.Component {
          
          firebase.database().ref('users/'+firebaseUser+'/friends/'+usr.id+'/').set({
             friendId: usr.id,
-            name: usr.name
+            name: usr.name,
+            mail:usr.mail
             
           });
           firebase.database().ref('users/'+usr.id+'/friends/'+firebaseUser+'/').set({

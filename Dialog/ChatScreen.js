@@ -59,15 +59,26 @@ export default class ChatScreen extends React.Component {
        var db = firebase.database();
        var chatsRef = db.ref("chats");
        var usr;
+       var msgArray;
       chatsRef.orderByChild(friendId+firebaseUser).equalTo(true).limitToFirst(1).on('value', (snapshot) => {
       snapshot.forEach(function (childSnapshot){
-      usr = childSnapshot.key
+      usr = childSnapshot.key;
+      msgArray = [];
           if(usr != undefined)
           {
-            //TODO: load messsages in array
-            childSnapshot.forEach(function(messageFB){
-              var msg = messageFB
-            })
+            //TODO: load messsages in array ;D
+            childSnapshot.child('messages').forEach(function(messageFB){
+              var msg = messageFB.val();
+              
+              var msgTxt = msg.text;
+              var sender = msg.sender
+              var message = {
+                sender:sender,
+                text:msg.text,
+                key:messageFB.key
+              }
+              msgArray.push(message)
+            });
           }
         }); 
         if(usr == undefined)
@@ -81,6 +92,7 @@ export default class ChatScreen extends React.Component {
         else
         {
           this.setState({chatID:usr})
+          this.setState({messages:msgArray});
         }
   
       });  
@@ -91,18 +103,16 @@ export default class ChatScreen extends React.Component {
     {
       if(this.state.messageText=='')
         return;
-      const firebaseUser = this.props.navigation.getParam('firebaseUser','');
-      const friendId = this.props.navigation.getParam('friendId','');
-      
-          
+      const firebaseChat = this.state.chatID;
+       var firebaseUser = this.props.navigation.getParam('firebaseUser',''); 
        var db = firebase.database();
        var chatsRef = db.ref("chats");
+       var text = this.state.messageText;
        var usr;
-      chatsRef.orderByChild(friendId+firebaseUser).equalTo(true).limitToFirst(1).on('value', (snapshot) => {
-      snapshot.forEach(function (childSnapshot){
-      usr = childSnapshot.val()
-        }); 
-       
+       firebase.database().ref('chats/'+firebaseChat+'/messages/').push({
+        sender: firebaseUser,
+        text: text
+        
       });
 
 
@@ -113,12 +123,25 @@ export default class ChatScreen extends React.Component {
     render() {
         const { navigate } = this.props.navigation;
         const { messageText } = this.state;
-  
+        var firebaseUser = this.props.navigation.getParam('firebaseUser',''); 
+        const messagesList = this.state.messages.map( message => {
+          if(message.sender == firebaseUser)
+          return(
+            
+            <MessageS key={message.key} message={message.text}/>
+          )
+          else
+          return(
+            
+            <MessageR message={message.text}/>
+          )
+          
+      })
       
       return (
         <SafeAreaView >
             <ScrollView style={{height:this.state.messagesHeight}}>
-            
+            {messagesList}
            <MessageR message="hola"/>
             <MessageS message={this.state.chatID}/>
             </ScrollView>

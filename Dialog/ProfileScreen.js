@@ -55,6 +55,7 @@ export default class ProfileScreen extends React.Component {
             var childData =childSnapshot.val();
             var key = childData.friendId;
             var name ='';
+            var mail = childData.mail;
             name = childData.name;
             var friend = {};
             firebase.database().ref('users/'+name).on('value', (snapshot) => {
@@ -66,10 +67,9 @@ export default class ProfileScreen extends React.Component {
             // childData will be the actual contents of the child
             friend = {
               name: name,
-              message: "state",
-              image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/About_icon_%28The_Noun_Project%29.svg/2000px-About_icon_%28The_Noun_Project%29.svg.png",
               id: key,
-              key: key
+              key: key,
+              mail:mail
             };
         friends.push(friend);
           });
@@ -81,17 +81,19 @@ export default class ProfileScreen extends React.Component {
     render() {
         const { navigate } = this.props.navigation;
         const {editmode} = this.state.editmode;
-    //     const chatLists = this.state.friends.map( friend => {
-    //   return(
-    //           <ChatItem key={friend.key} id={friend.id} name={friend.name} time="2:00" message={friend.state} image={friend.image}
-    //           />
-    //         )});
+        const chatLists = this.state.friends.map( friend => {
+      return(
+              <ChatItem key={friend.key} id={friend.id} name={friend.name}  message={friend.mail}
+              />
+            )});
       return (
             <SafeAreaView >
                 <Text>Nombre: {this.state.nombre}</Text>
                 <Text>Correo: {this.state.correo}</Text>
                 <ScrollView>
                 <FriendModule isEditing={this.state.editmode} nombre={this.state.nombre} firebaseUser={this.props.navigation.getParam('firebaseUser','')}/>
+                 {chatLists}
+                 
                  </ScrollView>
             </SafeAreaView>
         );
