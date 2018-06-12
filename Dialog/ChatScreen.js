@@ -133,17 +133,19 @@ export default class ChatScreen extends React.Component {
           else
           return(
             
-            <MessageR message={message.text}/>
+            <MessageR key={message.key} message={message.text}/>
           )
           
       })
       
       return (
         <SafeAreaView >
-            <ScrollView style={{height:this.state.messagesHeight}}>
+            <ScrollView style={{height:this.state.messagesHeight}}
+            ref={ref => this.scrollView = ref}
+            onContentSizeChange={(contentWidth, contentHeight)=>{        
+                this.scrollView.scrollToEnd({animated: true});
+            }}>
             {messagesList}
-           <MessageR message="hola"/>
-            <MessageS message={this.state.chatID}/>
             </ScrollView>
 
             <View style={{ alignSelf:'flex-end', padding:10, height:60, width:width, borderTopWidth:1, borderColor:'#f3f3f3', backgroundColor:'#fff' }}>

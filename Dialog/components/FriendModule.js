@@ -35,6 +35,9 @@ export default class FriendModule extends React.Component {
     }   
     validarCorreo()
     {
+        if(this.state.email == this.props.mail)
+        {return false;
+        }
         return true;
     }
     addFriend()
@@ -47,7 +50,7 @@ export default class FriendModule extends React.Component {
         var correoValidado = this.validarCorreo()
         if(!correoValidado)
         {
-            alert('validarCorreo');
+            alert('Por muy solo que estes, no puedes ser tu propio amigo :(');
             return;
         }
         

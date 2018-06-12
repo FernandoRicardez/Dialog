@@ -91,7 +91,7 @@ export default class ProfileScreen extends React.Component {
                 <Text>Nombre: {this.state.nombre}</Text>
                 <Text>Correo: {this.state.correo}</Text>
                 <ScrollView>
-                <FriendModule isEditing={this.state.editmode} nombre={this.state.nombre} firebaseUser={this.props.navigation.getParam('firebaseUser','')}/>
+                <FriendModule isEditing={this.state.editmode} nombre={this.state.nombre} mail={this.state.correo} firebaseUser={this.props.navigation.getParam('firebaseUser','')}/>
                  {chatLists}
                  
                  </ScrollView>
