@@ -25,8 +25,8 @@ export default class ChatList extends React.Component {
     this.state = {
        friends:[ ],
       index: 0,
-      firebaseUser:''
-      
+      firebaseUser:'',
+      first:false
 
     };
 
@@ -39,10 +39,11 @@ export default class ChatList extends React.Component {
   {
     const userId = this.props.navigation.getParam('firebaseUser','');
     this.setState({firebaseUser:userId});
-  
+    var doif = this.state.first;
    
-    
     firebase.database().ref('users/'+userId+'/friends').on('value', (snapshot) => {
+     
+     
       const res = snapshot.val();
         var friends = [];
         
@@ -52,30 +53,35 @@ export default class ChatList extends React.Component {
           var key = childData.friendId;
           var name ='';
           name = childData.name;
+          var mail = childData.mail;
+          var lastMessage = childData.lastMessage;
+         
           var friend = {};
-          firebase.database().ref('users/'+name).on('value', (snapshot) => {
-            var  usr= snapshot.val();
-            
-            
-          });
           //console.log(key);
           // childData will be the actual contents of the child
           friend = {
             name: name,
             message: "state",
-            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/About_icon_%28The_Noun_Project%29.svg/2000px-About_icon_%28The_Noun_Project%29.svg.png",
+            image: "https://scontent.fgdl4-1.fna.fbcdn.net/v/t1.15752-9/35297836_1064934710325183_590673997381763072_n.png?_nc_cat=0&oh=caf0f17b7de4717e74acbd01d8400fab&oe=5BA5383F",
             id: key,
-            key: key
+            key: key,
+            lastMessage:lastMessage,
+            mail:mail
           };
       friends.push(friend);
         });
+      
         this.setState({friends:friends});  
+        this.setState({first:true});
     });
     
   }
   
   render() {
     //   const { navigate } = this.props.navigation;
+    const myName = this.props.navigation.getParam('myName','');
+    const myMail = this.props.navigation.getParam('myMail','');
+    
     const chatLists = this.state.friends.map( friend => {
         return(
           <TouchableOpacity key={friend.key}
@@ -83,12 +89,16 @@ export default class ChatList extends React.Component {
              this.props.navigation.navigate('Chat',{
                name:'Chat con '+friend.name,
                friendId:friend.id,
-               firebaseUser:this.state.firebaseUser
+               firebaseUser:this.state.firebaseUser,
+               friendName:friend.name,
+               friendMail:friend.mail,
+               myName:myName,
+               myMail:myMail
             
             });
             }}
         >
-          <ChatItem key={friend.key} id={friend.id} name={friend.name} time="2:00" message={friend.state} image={friend.image}
+          <ChatItem key={friend.key} id={friend.id} name={friend.name} time="" message={friend.lastMessage} image={friend.image}
           />
           </TouchableOpacity>
         )

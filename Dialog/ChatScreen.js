@@ -48,6 +48,7 @@ export default class ChatScreen extends React.Component {
 
     componentWillMount()
     {
+      
       this.getMessages()
     }
     getMessages()
@@ -102,6 +103,13 @@ export default class ChatScreen extends React.Component {
 
     submitThis()
     {
+      const friendId = this.props.navigation.getParam('friendId','');
+      var friendMail = this.props.navigation.getParam('friendMail',''); 
+      var friendName = this.props.navigation.getParam('friendName',''); 
+      var myMail = this.props.navigation.getParam('myMail',''); 
+      var myName = this.props.navigation.getParam('myName',''); 
+
+      
       if(this.state.messageText=='')
         return;
       const firebaseChat = this.state.chatID;
@@ -110,12 +118,27 @@ export default class ChatScreen extends React.Component {
        var chatsRef = db.ref("chats");
        var text = this.state.messageText;
        var usr;
+
+      // firebase.database().ref('users/'+firebaseUser+'/friends/'+friendId).set({
+      //   lastMessage: text,
+      //   name:friendName,
+      //   friendId:friendId,
+      //   mail:friendMail
+
+      // });
+
+      // firebase.database().ref('users/'+friendId+'/friends/'+firebaseUser).set({
+      //   lastMessage: text,
+      //   name:myName,
+      //   friendId:firebaseUser,
+      //   mail:myMail
+      // });
+
        firebase.database().ref('chats/'+firebaseChat+'/messages/').push({
         sender: firebaseUser,
         text: text
         
       });
-
 
 
           this.setState({messageText:''});
@@ -125,6 +148,7 @@ export default class ChatScreen extends React.Component {
         const { navigate } = this.props.navigation;
         const { messageText } = this.state;
         var firebaseUser = this.props.navigation.getParam('firebaseUser',''); 
+       
         const messagesList = this.state.messages.map( message => {
           if(message.sender == firebaseUser)
           return(
@@ -151,7 +175,10 @@ export default class ChatScreen extends React.Component {
                 this.scrollView.scrollToEnd({animated: true});
             }}>
             {messagesList}
-            <View style={{ padding:10, height:60, width:width, borderTopWidth:1, borderColor:'#f3f3f3', backgroundColor:'#fff' }}>
+    
+
+            </ScrollView>
+            <View style={{ flexDirection:'flex-end', padding:10, height:60, width:width, borderTopWidth:1, borderColor:'#f3f3f3', backgroundColor:'#fff' }}>
           <TextInput
             style={{ flex:1, width:width }}
             value={messageText}
@@ -164,9 +191,6 @@ export default class ChatScreen extends React.Component {
             autoComplete="false"
           />
         </View>
-
-            </ScrollView>
-           
       
         </KeyboardAvoidingView>
         </SafeAreaView>

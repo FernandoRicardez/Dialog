@@ -57,9 +57,17 @@ class HomeScreen extends React.Component {
       if (user != null) {
         this.setState({firebaseUser:user.uid})
         // this.setState({isLoggedIn:true})
+          var uid = user.uid
+    firebase.database().ref('users/'+uid+'/').on('value', (snapshot) => {
+        var value = snapshot.val()
+        var myName = value.name;
+        var myMail = value.mail;
+
+        this.props.navigation.navigate('Chats',{firebaseUser:this.state.firebaseUser,name:"Dialog",myName:myName,myMail:myMail});
+ 
+    });
   
-         this.props.navigation.navigate('Chats',{firebaseUser:this.state.firebaseUser,name:"Dialog"});
-      }
+             }
     
       // Do other things
     });
