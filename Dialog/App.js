@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text,Image,TextInput,Button,ActivityIndicator } from 'react-native';
+import { View, Text,Image,TextInput,Button,ActivityIndicator,KeyboardAvoidingView } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 
@@ -79,7 +79,8 @@ class HomeScreen extends React.Component {
     else
     return (
       
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      
         <Image source={require('./images/logo.png')} style={{width: 240, height: 80}}/>
         <Text>Home Screen App.js </Text>
         <TextInput style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
@@ -97,7 +98,7 @@ class HomeScreen extends React.Component {
         <Button title="Register?"
          onPress={() => this.props.navigation.navigate('Register')}
          />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

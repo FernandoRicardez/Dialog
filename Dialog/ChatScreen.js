@@ -34,7 +34,7 @@ export default class ChatScreen extends React.Component {
           indiceActual: 0,
           name:'??????',
           messageText:'',
-          messagesHeight:height-125,
+          messagesHeight:height-100,
           chatID:'',
           messages:[]
 
@@ -140,28 +140,34 @@ export default class ChatScreen extends React.Component {
       })
       
       return (
-        <SafeAreaView >
-           <KeyboardAvoidingView>
-            <ScrollView style={{height:this.state.messagesHeight}}
+        <SafeAreaView  style={{flex:1}}> 
+           <KeyboardAvoidingView
+              behavior="padding"
+              style={{flex:1}}
+            >
+            <ScrollView 
             ref={ref => this.scrollView = ref}
             onContentSizeChange={(contentWidth, contentHeight)=>{        
                 this.scrollView.scrollToEnd({animated: true});
             }}>
             {messagesList}
-            </ScrollView>
-
-            <View style={{ alignSelf:'flex-end', padding:10, height:60, width:width, borderTopWidth:1, borderColor:'#f3f3f3', backgroundColor:'#fff' }}>
+            <View style={{ padding:10, height:60, width:width, borderTopWidth:1, borderColor:'#f3f3f3', backgroundColor:'#fff' }}>
           <TextInput
-            style={{ flex:1, }}
+            style={{ flex:1, width:width }}
             value={messageText}
             onChangeText={(messageText) => this.setState({ messageText })}
             onSubmitEditing={() => this.submitThis()}
-            onFocus={() => this.setState({messagesHeight:300})}
-            onBlur={() => this.setState({messagesHeight:height-125})}
+            //  onFocus={() => this.setState({messagesHeight:300})}
+            // onBlur={() => this.setState({messagesHeight:height-60})}
             
-            placeholder="Enter Your message here"
+            placeholder="Escribe aqui"
+            autoComplete="false"
           />
         </View>
+
+            </ScrollView>
+           
+      
         </KeyboardAvoidingView>
         </SafeAreaView>
     );
