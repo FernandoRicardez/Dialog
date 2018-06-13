@@ -60,6 +60,7 @@ export default class FriendModule extends React.Component {
         var db = firebase.database();
         var usersRef = db.ref("users");
         var usr;
+        var email = this.props.mail;
        usersRef.orderByChild("mail").equalTo(friendMail).limitToFirst(1).on('value', (snapshot) => {
        snapshot.forEach(function (childSnapshot){
        usr = childSnapshot.val()
@@ -80,10 +81,11 @@ export default class FriendModule extends React.Component {
           });
           firebase.database().ref('users/'+usr.id+'/friends/'+firebaseUser+'/').set({
             friendId: firebaseUser,
-            name: name
+            name: name,
+            mail: email
             
           });
-          
+          this.setState({email:''})
           this.setState({editmode:false});
     });
         

@@ -30,9 +30,17 @@ export default class ProfileScreen extends React.Component {
         var name = this.state.nombre;
         var email = this.state.email;
       firebase.auth().signOut();  
-      firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.pass1).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
+      firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.pass1).then(function(user) {
+        var user = firebase.auth().currentUser;   
+        var newId =user.uid;
+        firebase.database().ref('users/'+newId).set({
+           name: name,
+           mail: email,
+           id: newId
+            
+           });
+     }, function(error){
+             var errorCode = error.code;
         var errorMessage = error.message;
         if (errorCode == 'auth/weak-password') {
           alert('La contraseña debe contener 6 caracteres');
@@ -48,22 +56,7 @@ export default class ProfileScreen extends React.Component {
         }
         console.log(error);
       });
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-      var newId =user.uid
-
-        firebase.database().ref('users/'+newId).set({
-           name: name,
-           mail: email,
-           id: newId
-            
-           });
-        } else {
-            // No user is signed in.
-          }
-        });
-     
+   
     
 
     }

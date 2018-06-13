@@ -12,7 +12,8 @@ import {
     View,
     ScrollView,
     SafeAreaView,
-    ImageBackground
+    ImageBackground,
+    KeyboardAvoidingView
   } 
   from 'react-native';
   import MessageR from './components/messageRecieved'  
@@ -140,6 +141,7 @@ export default class ChatScreen extends React.Component {
       
       return (
         <SafeAreaView >
+           <KeyboardAvoidingView>
             <ScrollView style={{height:this.state.messagesHeight}}
             ref={ref => this.scrollView = ref}
             onContentSizeChange={(contentWidth, contentHeight)=>{        
@@ -160,6 +162,7 @@ export default class ChatScreen extends React.Component {
             placeholder="Enter Your message here"
           />
         </View>
+        </KeyboardAvoidingView>
         </SafeAreaView>
     );
     }  

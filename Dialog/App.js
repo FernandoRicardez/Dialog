@@ -45,30 +45,31 @@ class HomeScreen extends React.Component {
   { 
     
     firebase.auth().signOut();
+   
     firebase.auth().signInWithEmailAndPassword(this.state.user, this.state.pass).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
+      alert(errorMessage);
       // ...
     });
-    
-
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         this.setState({firebaseUser:user.uid})
         // this.setState({isLoggedIn:true})
-       
+  
          this.props.navigation.navigate('Chats',{firebaseUser:this.state.firebaseUser,name:"Dialog"});
       }
     
       // Do other things
     });
     
+
+  
   }
 
   componentWillMount()
   {
-    firebase.auth().signOut();
   }
 
   render() {
